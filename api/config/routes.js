@@ -20,6 +20,10 @@ module.exports.routes = {
   ***************************************************************************/
 
   '/': { view: 'pages/homepage' },
+  'get /todo': 'TodoController.Get',
+  // 'post /todo': 'TodoController.Post',
+  // 'put /todo': 'TodoController.Put',
+  // 'delete /todo': 'TodoController.Delete',
 
 
   /***************************************************************************
