@@ -1,3 +1,5 @@
+// Enable TypeScript
+require('ts-node/register');
 /**
  * app.js
  *

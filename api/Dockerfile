@@ -4,4 +4,4 @@ COPY package*.json /api/
 RUN npm install
 COPY . /api/
 EXPOSE 1337
-CMD ["sails" "lift"]
+CMD node app.js

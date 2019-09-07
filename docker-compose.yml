@@ -25,7 +25,7 @@ services:
     networks:
       - webappnetwork
     build: ./api
-    command: sails lift
+    command: node app.js
     environment:
       WAIT_HOSTS: mongodb:27017
   #Frontend (React)

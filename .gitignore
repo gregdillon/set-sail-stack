@@ -4,6 +4,7 @@ api/node_modules
 
 #API
 api/config/local.js
+api/.tmp
 
 #Client
 # dependencies
