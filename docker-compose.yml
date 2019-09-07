@@ -1,37 +1,27 @@
 version: "3.7"
 services:
   #Database
-  mongodb:
-    image: mongo
-    deploy:
-      restart_policy:
-        condition: on-failure
-        delay: 5s
-        max_attempts: 3
-        window: 120s
-    container_name: mongodb
-    ports:
-      - "27017:27017"
-    networks:
-      - webappnetwork
-    volumes:
-      - dbdata:/data/db
-    command: mongod --port 27017 --logpath=/dev/null
+# Uncomment when ready to hook API to a MongoDB
+# Also uncomment the api "depends_on" value as well as the "dbdata" volume
+#  mongodb:
+#    image: mongo
+#    container_name: mongodb
+#    ports:
+#      - "27017:27017"
+#    networks:
+#      - webappnetwork
+#    volumes:
+#      - dbdata:/data/db
+#    command: mongod --port 27017 --logpath=/dev/null
   #API (Sails.js)
   api:
     image: mhart/alpine-node
-    deploy:
-      restart_policy:
-        condition: on-failure
-        delay: 5s
-        max_attempts: 3
-        window: 120s
     ports:
       - "1337:1337"
     volumes:
       - ./api:/api
-    depends_on:
-      - mongodb
+    #depends_on:
+      #- mongodb
     networks:
       - webappnetwork
     build: ./api
@@ -53,5 +43,5 @@ services:
 networks:
   webappnetwork:
     driver: bridge
-volumes:
-  dbdata:
+#volumes:
+  #dbdata:
