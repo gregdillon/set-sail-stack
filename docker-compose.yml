@@ -3,46 +3,55 @@ services:
   #Database
   mongodb:
     image: mongo
-    restart: always
+    deploy:
+      restart_policy:
+        condition: on-failure
+        delay: 5s
+        max_attempts: 3
+        window: 120s
     container_name: mongodb
     ports:
       - "27017:27017"
     networks:
       - webappnetwork
-    command: mongod --port 27017
+    volumes:
+      - dbdata:/data/db
+    command: mongod --port 27017 --logpath=/dev/null
   #API (Sails.js)
   api:
     image: mhart/alpine-node
-    restart: always
+    deploy:
+      restart_policy:
+        condition: on-failure
+        delay: 5s
+        max_attempts: 3
+        window: 120s
     ports:
       - "1337:1337"
     volumes:
       - ./api:/api
     depends_on:
       - mongodb
-    links:
-      - mongodb
     networks:
       - webappnetwork
     build: ./api
     command: node app.js
-    environment:
-      WAIT_HOSTS: mongodb:27017
   #Frontend (React)
   client:
     image: mhart/alpine-node
-    restart: always
     ports:
       - "3000:3000"
     working_dir: /client/src/app
     volumes:
       - ./client:/client/src/app
-    entrypoint: ["npm", "start"]
-    links:
+    depends_on:
       - api
+    entrypoint: ["npm", "start"]
     networks:
       - webappnetwork
     build: ./client
 networks:
   webappnetwork:
     driver: bridge
+volumes:
+  dbdata:
