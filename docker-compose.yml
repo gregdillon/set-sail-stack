@@ -30,13 +30,11 @@ services:
     image: mhart/alpine-node
     ports:
       - "3000:3000"
-    #investigate this setting
     working_dir: /client/src/app
     volumes:
       - ./client:/client/src/app
     depends_on:
       - api
-    #consider removing entrypoint setting, default may be OK
     entrypoint: ["npm", "start"]
     networks:
       - webappnetwork
